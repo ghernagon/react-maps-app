@@ -4,8 +4,8 @@ import { Feature } from "../interfaces/places";
 import { LoadingPlaces } from "./LoadingPlaces";
 
 export const SearchResults = () => {
-  const { places, isLoadingPlaces } = useContext(PlacesContext);
-  const { map } = useContext(MapContext);
+  const { places, isLoadingPlaces, userLocation } = useContext(PlacesContext);
+  const { map, getRouteBetweenPoints } = useContext(MapContext);
 
   const [activeId, setActiveId] = useState("");
 
@@ -16,6 +16,12 @@ export const SearchResults = () => {
       zoom: 14,
       center: [lng, lat],
     });
+  };
+
+  const onDirectionsClicked = (place: Feature) => {
+    if (!userLocation) throw new Error("user location not found");
+    const [lng, lat] = place.center;
+    getRouteBetweenPoints(userLocation, [lng, lat]);
   };
 
   if (isLoadingPlaces) {
@@ -43,6 +49,7 @@ export const SearchResults = () => {
             className={`btn btn-sm ${
               activeId === place.id ? "btn-outline-light" : "btn-outline-primary"
             }`}
+            onClick={() => onDirectionsClicked(place)}
           >
             Directions
           </button>
