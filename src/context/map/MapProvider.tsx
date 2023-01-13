@@ -1,10 +1,13 @@
 import { useContext, useEffect, useReducer } from "react";
-import { AnySourceData, LngLatBounds, Map, Marker, Popup } from "mapbox-gl";
 import { MapContext } from "./MapContext";
 import { mapReducer } from "./mapReducer";
 import { PlacesContext } from "../";
 import { directionsApi } from "../../apis";
 import { DirectionsResponse } from "../../interfaces/directions";
+
+//@ts-ignore
+// eslint-disable-next-line import/no-webpack-loader-syntax
+import { AnySourceData, LngLatBounds, Map, Marker, Popup } from "!mapbox-gl";
 
 export interface MapState {
   isMapReady: boolean;
